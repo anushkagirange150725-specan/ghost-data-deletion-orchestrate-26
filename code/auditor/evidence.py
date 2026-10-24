@@ -218,17 +218,40 @@ def parse_text(fid, path, ftime):
             out.append(from_lookup(fid, ts(t), ftime, system, rid, rtype, result, subject))
     return out
 
+def scopes_of(path, ftime):
+    """(system, time) pairs for full-store captures: a record missing from one is absent then."""
+    ext = os.path.splitext(path)[1].lower()
+    out = []
+    if ext == ".sql":
+        con = sqlite3.connect(":memory:")
+        con.executescript(open(path, encoding="utf-8").read())
+        tables = [r[0] for r in con.execute("select name from sqlite_master where type='table'")]
+        if "snapshot_scope" in tables:
+            out += [(s, ts(t)) for s, t in con.execute("select origin_system, captured_at from snapshot_scope")]
+        if any(t.startswith("customer_profiles_") for t in tables):
+            out.append(("account_service", ftime))
+        if any(t.startswith("customer_data_") for t in tables):
+            out += [(s, ftime) for s in CATEGORY]
+    elif ext == ".json":
+        d = json.load(open(path, encoding="utf-8"))
+        for snap in d.get("snapshots", []):
+            if snap.get("collection") != "operational_record_history":
+                out.append((snap["data_store"], ts(snap["captured_at"]) or ftime))
+    return out
 
 class Evidence:
     def __init__(self):
         self.files = {r["file_id"]: r for r in load("evidence_files.csv")}
         self.obs: list[Observation] = []
+        self.scopes = []
         for fid, meta in self.files.items():
             path = os.path.join(DATASET, meta["file_path"])
             ftime = ts(meta["captured_at"])
             ext = os.path.splitext(path)[1].lower()
             from .logs import parse_log
             parser = {".sql": parse_sql, ".json": parse_json, ".txt": parse_text, ".log": parse_log}.get(ext)
+            for system, when in scopes_of(path, ftime):
+                self.scopes.append((fid, min(when, ftime), ftime, system))
             if parser:
                 for o in parser(fid, path, ftime):
                     o.time = min(o.time, ftime)
