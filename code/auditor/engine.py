@@ -5,6 +5,7 @@ from .activity import Activity, is_policy
 from .data import ts
 from .evidence import Evidence, system_of
 from .identity import Identity
+from .intent import wants_deletion
 from .policy import build
 
 RETAINED = {"SECURITY_AUDIT_LOG", "LEGAL_HOLD_RECORD"}
@@ -42,7 +43,10 @@ class Auditor:
         for c in cases:
             c = dict(c)
             c["user_id"] = self.idn.resolve(c["email"])
+            c["deletion"] = c["user_id"] is not None and wants_deletion(c["request_text"])[0]
             self.cases.append(c)
+        self.cases_all = self.cases
+        self.cases = [c for c in self.cases_all if c["deletion"]]
         linked = {c["case_id"]: self.linked(c["user_id"], ts(c["audit_at"])) for c in self.cases}
         owner = {}
         for cid, rids in linked.items():
@@ -82,7 +86,9 @@ class Auditor:
         return res
 
     def audit(self, case):
-        c = next(x for x in self.cases if x["case_id"] == case["case_id"])
+        c = next(x for x in self.cases_all if x["case_id"] == case["case_id"])
+        if not c["deletion"]:
+            return "NOT_APPLICABLE", []
         audit = ts(c["audit_at"])
         rids = set(self.linked_by_case[c["case_id"]])
         anchor = self.anchors.get(c["case_id"])

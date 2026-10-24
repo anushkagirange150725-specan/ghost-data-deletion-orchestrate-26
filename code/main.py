@@ -2,6 +2,7 @@ import argparse, csv, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from auditor.data import REPO, load
 from auditor.engine import Auditor
+from auditor.checks import subject_checks
 
 
 def run(requests_file, out_path):
@@ -18,6 +19,14 @@ def run(requests_file, out_path):
         w.writeheader()
         w.writerows(rows)
     print(f"wrote {len(rows)} rows to {out_path}")
+    checks = subject_checks(auditor)
+    path = os.path.join(REPO, "code", "evaluation", "subject_checks.csv")
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(checks[0]))
+        w.writeheader()
+        w.writerows(checks)
+    flagged = sum(1 for r in checks if r["flags"])
+    print(f"wrote {len(checks)} subject checks ({flagged} flagged) to {path}")
 
 
 if __name__ == "__main__":
