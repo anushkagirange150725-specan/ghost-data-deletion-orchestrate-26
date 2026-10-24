@@ -134,3 +134,29 @@ repo_root=D:\vscode\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
 
+## [2026-10-24T18:52:24Z] Phase 4 activity-burst linking
+
+User Prompt (verbatim, secrets redacted):
+Phase 4 code verified: exact rows 0.875, F1 0.976 on samples
+
+Agent Response Summary:
+Linked identifier-free records (deleted accounts, anonymised analytics) to cases through deletion-worker activity bursts: phase-based scoring, a reported_status/result tie-breaker and global Hungarian matching over all 550 requests. Added snapshot-scope evidence for accounts never mentioned directly, and non-overlapping data-derived timing windows (15-75 min policy, 75-210 min result). Samples improved from 31% to 87.5% exact rows.
+
+Actions:
+* created code/auditor/activity.py
+* rewrote code/auditor/engine.py
+* added scopes_of to evidence.py
+* added prepare() call in main.py
+* pip install numpy scipy
+* python code/main.py --samples
+* python code/evaluation/evaluate.py
+* python code/main.py
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
