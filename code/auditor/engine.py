@@ -2,6 +2,7 @@ from __future__ import annotations
 from collections import Counter
 from datetime import timedelta
 from .activity import Activity, is_policy
+from .artefacts import Artefacts, catalogue_links
 from .data import ts
 from .evidence import Evidence, system_of
 from .identity import Identity
@@ -16,6 +17,11 @@ class Auditor:
         self.ev = Evidence()
         self.idn = Identity()
         self.act = Activity()
+        self.links = catalogue_links(self.act.rows)
+        self.art = Artefacts(self.ev, self.idn, self.links)
+        for o in self.art.observations():
+            self.ev.obs.append(o)
+            self.ev.by_resource[o.resource_id].append(o)
         self.by_token = {}
         for o in self.ev.obs:
             for t in o.ids:
@@ -28,14 +34,23 @@ class Auditor:
                                 for t in o.ids if t in self.idn.owner}
         return self._users[rid]
 
-    def linked(self, uid, audit):
+    def linked(self, c):
+        uid, audit = c["user_id"], ts(c["audit_at"])
+        window = ts(c["requested_at"]) - timedelta(days=7)
         rids = set()
         for t in self.idn.tokens(uid):
             for o in self.by_token.get(t, []):
+                if o.table == "artefact" and o.file_time < window:
+                    continue
                 if o.file_time <= audit:
                     rids.add(o.resource_id)
                 elif o.category in RETAINED and o.file_time <= audit + timedelta(days=7):
                     rids.add(o.resource_id)
+        emails = {t[2:] for t in self.idn.tokens(uid) if t.startswith("e:")}
+        for l in self.links:
+            if window <= l["t"] <= audit and (l["user_id"] == uid or l["email"] in emails):
+                if not self.art.contradicts(l["resource_id"], emails, audit):
+                    rids.add(l["resource_id"])
         return rids
 
     def prepare(self, cases):
@@ -43,11 +58,12 @@ class Auditor:
         for c in cases:
             c = dict(c)
             c["user_id"] = self.idn.resolve(c["email"])
+            # no known subject -> nobody's data can be authorised for deletion
             c["deletion"] = c["user_id"] is not None and wants_deletion(c["request_text"])[0]
             self.cases.append(c)
         self.cases_all = self.cases
         self.cases = [c for c in self.cases_all if c["deletion"]]
-        linked = {c["case_id"]: self.linked(c["user_id"], ts(c["audit_at"])) for c in self.cases}
+        linked = {c["case_id"]: self.linked(c) for c in self.cases}
         owner = {}
         for cid, rids in linked.items():
             for r in rids:
@@ -57,6 +73,8 @@ class Auditor:
         self.anchors = self.act.assign(self.cases, linked, self.users_of, free_policy)
         extra = self.act.attach(self.anchors, linked, {c["case_id"]: c for c in self.cases}, free)
         self.linked_by_case = {cid: rids | extra.get(cid, set()) for cid, rids in linked.items()}
+
+
 
     def state(self, rid, audit):
         every = self.ev.by_resource.get(rid, [])

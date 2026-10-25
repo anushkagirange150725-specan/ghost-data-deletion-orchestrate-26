@@ -27,6 +27,12 @@ def run(requests_file, out_path):
         w.writerows(checks)
     flagged = sum(1 for r in checks if r["flags"])
     print(f"wrote {len(checks)} subject checks ({flagged} flagged) to {path}")
+    path = os.path.join(REPO, "code", "evaluation", "ocr_repairs.csv")
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=["file_id", "resource_id", "ocr_text", "candidate", "decision"])
+        w.writeheader()
+        w.writerows(auditor.art.repairs)
+    print(f"wrote {len(auditor.art.repairs)} OCR repair decisions to {path}")
 
 
 if __name__ == "__main__":

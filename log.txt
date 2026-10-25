@@ -208,3 +208,31 @@ repo_root=D:\vscode\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
 
+## [2026-10-25T05:57:03Z] Phase 6: PDFs and screenshots with safe OCR repair and catalogue veto
+
+User Prompt (verbatim, secrets redacted):
+ something that ocr might misread sometimes turn out to be the actual detail, so consider that too
+
+Agent Response Summary:
+Added documents.py to extract text from the 4 PDFs (pypdf) and 11 screenshots (Tesseract OCR), cached in code/cache/document_text.json so reruns and machines without Tesseract give identical results. Added artefacts.py, which finds record ids despite OCR noise, maps catalogue labels such as statement NST-2026-0718-1842 to export_1842, and turns each artefact row into a normal observation (attachment, connector state, restore availability, exposed PII). Because a near-match can be a real different person (e.g. g.silva76 vs g.silva76.jr), an OCR e-mail is repaired only if it is not a real address typed in structured evidence, differs from exactly one known e-mail by 1-2 OCR-style character swaps, and is corroborated in the same document or by a catalogue link for the same record; otherwise it stays uncertain and is used neither for linking nor for vetoing, and every decision is written to ocr_repairs.csv. Catalogue LINK_RESOURCE_IDENTITY claims and artefacts are used only within 7 days before the request, and a screenshot showing the record bound to someone else vetoes the claim (case_63, marketing_001). Samples improved to status 1.000, exact rows 0.906, F1 0.990 (case_07 fixed); the remaining 3 misses cite ids absent from every file.
+
+Actions:
+* python -m pip install pypdf
+* Created code/auditor/documents.py
+* Created code/auditor/artefacts.py (confusable OCR repair, corroboration, contradiction veto)
+* Edited code/auditor/engine.py (artefact observations, linked(c) with 7-day window, catalogue links)
+* Fixed indentation of Auditor.linked
+* Edited code/main.py to write code/evaluation/ocr_repairs.csv
+* Created code/tests/test_artefacts.py
+* Ran python code/main.py --samples and python code/main.py
+* Ran python -m pytest code/tests -q (56 passed)
+* Ran python code/evaluation/evaluate.py -v (status 1.000, exact rows 0.906, F1 0.990)
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
