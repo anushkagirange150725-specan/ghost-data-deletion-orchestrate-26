@@ -262,3 +262,44 @@ repo_root=D:\vscode\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
 
+## [2026-10-25T06:29:25Z] Evaluation: sequence/field metrics and 6 custom cases
+
+User Prompt (verbatim, secrets redacted):
+
+
+Agent Response Summary:
+Evaluation: sequence/field metrics and 6 custom cases
+
+Actions:
+
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T06:30:38Z] Evaluation: sequence/field metrics and 6 custom cases
+
+User Prompt (verbatim, secrets redacted):
+an old vs current email (C1), the same intent in another language (C2), a forged account the subject wants kept for now (C3), a look-alike email that must never reach someone else’s data (C4), messy formatting of the right email (C5), and time discipline (C6).
+
+Agent Response Summary:
+Extended evaluate.py into a reusable score() that adds sequence accuracy (same steps in the same order), per-field positional accuracy for all six step fields, and a well-formed check (step_no 1..n, phases never go backwards); empty-vs-empty rows now score as a perfect match. Added custom_cases.py with six scenarios built by changing one field of a solved sample and re-running the full pipeline: current vs old e-mail, the same intent in German, a forged account the subject asks not to delete yet, a look-alike e-mail that must not reach another person's data, a messy but exact e-mail, and audit_at moved before the key capture (no late citations). All 6 pass; the look-alike and mailto cases would have failed before the Phase 5 identity safeguards. Sample metrics: status 1.000, exact rows 0.906, sequence 0.906, step F1 0.990, well-formed 1.000.
+
+Actions:
+* Rewrote code/evaluation/evaluate.py (score function, sequence, field and well-formed metrics)
+* Created code/evaluation/custom_cases.py
+* Ran python code/evaluation/evaluate.py
+* Ran python code/evaluation/custom_cases.py (6/6 passed)
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
