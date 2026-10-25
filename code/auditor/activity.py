@@ -75,8 +75,16 @@ class Activity:
                     continue
                 w[i, j] = self.anchor_score(c, e, linked[c["case_id"]], owners, free_policy)
         rows, cols = linear_sum_assignment(-w)
-        return {cases[i]["case_id"]: events[j] for i, j in zip(rows, cols) if w[i, j] >= 1}
-
+        chosen = [(i, j) for i, j in zip(rows, cols) if w[i, j] >= 1]
+        # a tie: swapping two cases' anchors scores exactly the same, so the data cannot decide
+        self.ties = {}
+        for a, (i, j) in enumerate(chosen):
+            for k, l in chosen[a + 1:]:
+                if w[i, l] > 0 and w[k, j] > 0 and w[i, l] + w[k, j] == w[i, j] + w[k, l]:
+                    self.ties.setdefault(cases[i]["case_id"], []).append(cases[k]["case_id"])
+                    self.ties.setdefault(cases[k]["case_id"], []).append(cases[i]["case_id"])
+        return {cases[i]["case_id"]: events[j] for i, j in chosen}
+    
     def attach(self, anchors, linked, cases_by_id, free_events):
         claims = defaultdict(list)
         for cid, a in anchors.items():

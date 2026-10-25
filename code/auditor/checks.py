@@ -55,6 +55,8 @@ def subject_checks(auditor) -> list[dict]:
         others = [x for x in per_user[c["user_id"]] if x != c["case_id"]] if c["user_id"] else []
         if others:
             flags.append("REPEAT_REQUEST also " + ",".join(others))
+        if c["case_id"] in getattr(auditor.act, "ties", {}):
+            flags.append("AMBIGUOUS_ANCHOR swaps with " + ",".join(auditor.act.ties[c["case_id"]]))
         if c["deletion"] and not auditor.linked_by_case.get(c["case_id"]):
             flags.append("NO_EVIDENCE_FOUND")
         rows.append({"case_id": c["case_id"], "language": language(c["request_text"]),

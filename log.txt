@@ -236,3 +236,29 @@ repo_root=D:\vscode\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
 
+## [2026-10-25T06:12:13Z] Fix unseen legal hold being deleted; flag tied activity anchors
+
+User Prompt (verbatim, secrets redacted):
+On to the bug fixes. First, the legal hold in case_287.
+
+Agent Response Summary:
+Compared the 518 evaluation rows against the reference build and investigated each difference. Fixed a real bug: a record seen only in activity (legal_hold_1745, case_287) defaulted to USER_PROFILE and was verified absent, so state() now takes the category from the full system map and the legal hold is retained (VERIFY_RECORD_PRESENT); a new test confirms no legal hold or security audit record is deleted or verified absent in any of the 550 requests. Five other differences (cases 64, 81, 112, 191, 532) were the reference's error: their anonymized analytics record starts a correctly spaced burst chain at about 16 minutes, which the 15-minute policy window from Phase 4 catches. Ten case pairs (e.g. 294/295, 408/409) have identifier-free accounts whose anchor swap scores exactly the same, and no ordering signal (request order, ids, time of day) predicts the confirmed matches, so they are flagged as AMBIGUOUS_ANCHOR in subject_checks.csv instead of guessed.
+
+Actions:
+* Edited code/auditor/engine.py (default category from CATEGORY)
+* Edited code/auditor/activity.py (record exact-tie swaps in assign)
+* Edited code/auditor/checks.py (AMBIGUOUS_ANCHOR flag)
+* Created code/tests/test_engine.py
+* Ran python code/main.py --samples and python code/main.py
+* Ran python -m pytest code/tests -q (59 passed)
+* Ran python code/evaluation/evaluate.py
+* Compared output.csv with the Phase 5 version (Phase 6 artefact cases 33-61 and case_287 changed)
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+

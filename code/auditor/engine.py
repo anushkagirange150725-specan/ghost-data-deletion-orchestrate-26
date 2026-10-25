@@ -4,7 +4,7 @@ from datetime import timedelta
 from .activity import Activity, is_policy
 from .artefacts import Artefacts, catalogue_links
 from .data import ts
-from .evidence import Evidence, system_of
+from .evidence import CATEGORY, Evidence, system_of
 from .identity import Identity
 from .intent import wants_deletion
 from .policy import build
@@ -83,8 +83,7 @@ class Auditor:
         if cats:
             category = next((c for c in ("SECONDARY_IDENTIFIER", "SUPPORT_ATTACHMENT") if c in cats), cats[-1])
         else:
-            category = {"account_service": "USER_PROFILE", "analytics_platform": "ANALYTICS_PROFILE",
-                        "identity_service": "ACCOUNT_TOMBSTONE"}.get(system_of(rid), "USER_PROFILE")
+            category = CATEGORY.get(system_of(rid), "USER_PROFILE")
         res = {"system": system_of(rid), "resource_id": rid, "category": category,
                "present": category in RETAINED, "pii": False, "flow_active": None,
                "restore_allowed": None, "evidence": ""}

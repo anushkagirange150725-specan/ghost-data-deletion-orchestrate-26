@@ -57,8 +57,8 @@ case_55,en,current,asks for deletion: please treat this message as a request for
 case_56,en,historical,asks for deletion: please treat this message as a request for permanent account deletion,HISTORICAL_EMAIL replaced 2026-05-23
 case_57,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
 case_58,en,current,asks for deletion: i would like the account associated with this address to be erased,
-case_59,en,current,asks for deletion: i am asking you to remove my account and the personal information linked to it,
-case_60,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
+case_59,en,current,asks for deletion: i am asking you to remove my account and the personal information linked to it,AMBIGUOUS_ANCHOR swaps with case_60
+case_60,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,AMBIGUOUS_ANCHOR swaps with case_59
 case_61,en,current,asks for deletion: please treat this message as a request for permanent account deletion,REPEAT_REQUEST also case_07
 case_62,en,historical,asks for deletion: please erase the account linked to this email address,HISTORICAL_EMAIL replaced 2026-05-23
 case_63,en,current,asks for deletion: please permanently delete the account associated with this email address,NO_EVIDENCE_FOUND
@@ -201,9 +201,9 @@ case_199,en,historical,asks for deletion: please permanently delete the account 
 case_200,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
 case_201,fr,historical,asks for deletion: je demande la suppression definitive du compte associe a cette adresse e-mail,HISTORICAL_EMAIL replaced 2026-03-14
 case_202,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
-case_203,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
+case_203,en,current,asks for deletion: please treat this message as a request for permanent account deletion,AMBIGUOUS_ANCHOR swaps with case_205
 case_204,en,current,asks for deletion: please process a permanent account-deletion request for this email address,
-case_205,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
+case_205,en,current,asks for deletion: please treat this message as a request for permanent account deletion,AMBIGUOUS_ANCHOR swaps with case_203
 case_206,en,historical,asks for deletion: please process a permanent account-deletion request for this email address,HISTORICAL_EMAIL replaced 2026-03-09
 case_207,en,current,asks for deletion: i would like the account associated with this address to be erased,
 case_208,en,current,asks for deletion: please process a permanent account-deletion request for this email address,
@@ -223,8 +223,8 @@ case_221,en,current,asks for deletion: i nolonger use this account and would lik
 case_222,ko,current,asks for deletion: 이 이메일 주소에 연결된 계정의 영구 삭제를 요청합니다,
 case_223,en,current,asks for deletion: please erase the account linked to this email address,
 case_224,en,current,asks for deletion: please permanently delete the account associated with this email address,
-case_225,es,current,asks for deletion: solicito la eliminacion permanente de la cuenta asociada a este correo,
-case_226,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
+case_225,es,current,asks for deletion: solicito la eliminacion permanente de la cuenta asociada a este correo,AMBIGUOUS_ANCHOR swaps with case_226
+case_226,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,AMBIGUOUS_ANCHOR swaps with case_225
 case_227,en,historical,asks for deletion: please begin the deletion process for the account using this email address,HISTORICAL_EMAIL replaced 2026-02-27
 case_228,en,current,asks for deletion: please permanently delete the account associated with this email address,
 case_229,en,current,asks for deletion: please erase the account linked to this email address,
@@ -241,8 +241,8 @@ case_239,en,current,asks for deletion: please permanently delete the account ass
 case_240,fr,historical,asks for deletion: je demande la suppression definitive du compte associe a cette adresse e-mail,HISTORICAL_EMAIL replaced 2026-02-22
 case_241,en,historical,asks for deletion: i would like the account associated with this address to be erased,HISTORICAL_EMAIL replaced 2026-02-22
 case_242,en,historical,asks for deletion: i am requesting deletion of the account registered to this email address,HISTORICAL_EMAIL replaced 2026-02-22
-case_243,en,current,asks for deletion: please permanently delete the account associated with this email address,
-case_244,en,current,asks for deletion: i am requesting deletion of the account registered to this email address,
+case_243,en,current,asks for deletion: please permanently delete the account associated with this email address,AMBIGUOUS_ANCHOR swaps with case_244
+case_244,en,current,asks for deletion: i am requesting deletion of the account registered to this email address,AMBIGUOUS_ANCHOR swaps with case_243
 case_245,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
 case_246,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
 case_247,en,historical,asks for deletion: i would like the account associated with this address to be erased,HISTORICAL_EMAIL replaced 2026-02-18
@@ -292,8 +292,8 @@ case_290,en,current,asks for deletion: i nolonger use this account and would lik
 case_291,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
 case_292,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,
 case_293,en,current,asks for deletion: please begin the deletion process for the account using this email address,
-case_294,en,current,asks for deletion: please erase the account linked to this email address,
-case_295,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,
+case_294,en,current,asks for deletion: please erase the account linked to this email address,AMBIGUOUS_ANCHOR swaps with case_295
+case_295,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,AMBIGUOUS_ANCHOR swaps with case_294
 case_296,en,current,asks for deletion: please erase the account linked to this email address,
 case_297,en,current,asks for deletion: please permanently delete the account associated with this email address,
 case_298,en,historical,asks for deletion: i would like the account associated with this address to be erased,HISTORICAL_EMAIL replaced 2026-01-23
@@ -343,11 +343,11 @@ case_341,en,current,asks for deletion: i would like to submit a request to delet
 case_342,es,current,asks for deletion: solicito la eliminacion permanente de la cuenta asociada a este correo,
 case_343,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
 case_344,en,historical,asks for deletion: i would like to submit a request to delete this account and its personal data,HISTORICAL_EMAIL replaced 2025-12-30
-case_345,en,current,asks for deletion: i would like the account associated with this address to be erased,
-case_346,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,
-case_347,en,current,asks for deletion: i am requesting deletion of the account registered to this email address,
+case_345,en,current,asks for deletion: i would like the account associated with this address to be erased,AMBIGUOUS_ANCHOR swaps with case_346
+case_346,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,AMBIGUOUS_ANCHOR swaps with case_345
+case_347,en,current,asks for deletion: i am requesting deletion of the account registered to this email address,AMBIGUOUS_ANCHOR swaps with case_349
 case_348,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
-case_349,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,
+case_349,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,AMBIGUOUS_ANCHOR swaps with case_347
 case_350,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
 case_351,ja,current,asks for deletion: このメールアドレスに関連するアカウントの完全な削除を依頼します,
 case_352,en,current,asks for deletion: i want to close this account and have its associated personal data deleted,
@@ -406,11 +406,11 @@ case_404,en,current,asks for deletion: please erase the account linked to this e
 case_405,pt,current,asks for deletion: solicito a exclusao permanente da conta associada a este e-mail,
 case_406,en,historical,asks for deletion: please treat this message as a request for permanent account deletion,HISTORICAL_EMAIL replaced 2025-11-30
 case_407,en,current,asks for deletion: i nolonger use this account and would like it permanently deleted,
-case_408,en,current,asks for deletion: please treat this message as a request for permanent account deletion,LOOKALIKE_IGNORED abennett9843.jr@fastmail.com in search_5582
-case_409,en,current,asks for deletion: please close my account and process the associated personal-data deletion,
+case_408,en,current,asks for deletion: please treat this message as a request for permanent account deletion,LOOKALIKE_IGNORED abennett9843.jr@fastmail.com in search_5582 | AMBIGUOUS_ANCHOR swaps with case_409
+case_409,en,current,asks for deletion: please close my account and process the associated personal-data deletion,AMBIGUOUS_ANCHOR swaps with case_408
 case_410,en,current,asks for deletion: i am requesting deletion of the account registered to this email address,
-case_411,en,current,asks for deletion: i am asking you to remove my account and the personal information linked to it,
-case_412,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
+case_411,en,current,asks for deletion: i am asking you to remove my account and the personal information linked to it,AMBIGUOUS_ANCHOR swaps with case_412
+case_412,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,AMBIGUOUS_ANCHOR swaps with case_411
 case_413,en,current,asks for deletion: i am requesting deletion of the account registered to this email address,
 case_414,en,historical,asks for deletion: i am requesting deletion of the account registered to this email address,HISTORICAL_EMAIL replaced 2025-11-25
 case_415,en,current,asks for deletion: please begin the deletion process for the account using this email address,
@@ -525,9 +525,9 @@ case_523,en,current,asks for deletion: i would like the account associated with 
 case_524,en,current,asks for deletion: please process a permanent account-deletion request for this email address,
 case_525,en,historical,asks for deletion: please erase the account linked to this email address,HISTORICAL_EMAIL replaced 2025-09-30
 case_526,en,current,asks for deletion: please process a permanent account-deletion request for this email address,
-case_527,en,current,asks for deletion: please treat this message as a request for permanent account deletion,
+case_527,en,current,asks for deletion: please treat this message as a request for permanent account deletion,AMBIGUOUS_ANCHOR swaps with case_529
 case_528,en,current,asks for deletion: please erase the account linked to this email address,
-case_529,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,
+case_529,en,current,asks for deletion: i would like to submit a request to delete this account and its personal data,AMBIGUOUS_ANCHOR swaps with case_527
 case_530,en,historical,asks for deletion: please permanently delete the account associated with this email address,HISTORICAL_EMAIL replaced 2025-10-01
 case_531,en,current,asks for deletion: i would like the account associated with this address to be erased,
 case_532,en,historical,asks for deletion: i am asking you to remove my account and the personal information linked to it,HISTORICAL_EMAIL replaced 2025-10-01
