@@ -352,3 +352,30 @@ repo_root=D:\vscode\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
 
+## [2026-10-25T07:07:30Z] Package code.zip and prepare submission
+
+User Prompt (verbatim, secrets redacted):
+lets prepare the final submission
+
+Agent Response Summary:
+Removed a stray outdated copy of main.py from code/auditor and turned the empty starter code/evaluation/main.py into one entry point that runs the sample evaluation, the 6 custom cases and the output contract check. Re-ran everything after the cleanup: 518 rows written, 59 tests passed, status 1.000, exact rows 0.906, sequence 0.906, step F1 0.990, 6/6 custom cases, 0 contract violations on output.csv and the samples. Deleted .pytest_cache and __pycache__ folders and built code.zip from the contents of code/ (auditor modules, main.py, README, requirements, tests, evaluation scripts, reports and diagnostics, OCR text cache), then expanded and listed it to confirm nothing extra was included.
+
+Actions:
+* git rm code/auditor/main.py
+* Rewrote code/evaluation/main.py as the evaluation entry point
+* Ran python code/main.py
+* Ran python code/evaluation/main.py
+* Ran python code/evaluation/validate_output.py --samples (0 violations)
+* Ran python -m pytest code/tests -q (59 passed)
+* Removed .pytest_cache and __pycache__
+* Compress-Archive code\* to code.zip
+* Expanded and listed code.zip
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
