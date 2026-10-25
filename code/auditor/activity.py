@@ -24,6 +24,22 @@ def first_slot(anchor, event) -> bool:
     d = offset(anchor, event)
     return is_policy(event) and 18 * 60 <= d <= 52 * 60 and d % 60 in (40, 41)
 
+def match(w):
+    """Best one-to-one case/event matching: Hungarian (scipy) or, if scipy is missing, greedy."""
+    try:
+        import numpy as np
+        from scipy.optimize import linear_sum_assignment
+    except ImportError:
+        print("warning: scipy not installed, using greedy matching (results may differ)")
+        pairs = sorted(((w[i][j], -i, -j) for i in range(len(w)) for j in range(len(w[i])) if w[i][j] > 0),
+                       reverse=True)
+        used_i, used_j, out = set(), set(), []
+        for _, i, j in pairs:
+            if -i not in used_i and -j not in used_j:
+                used_i.add(-i); used_j.add(-j); out.append((-i, -j))
+        return sorted(out)
+    rows, cols = linear_sum_assignment(-np.array(w))
+    return list(zip(rows.tolist(), cols.tolist()))
 
 class Activity:
     def __init__(self):
@@ -60,10 +76,8 @@ class Activity:
         return score
 
     def assign(self, cases, linked, owner_of_resource, free_policy):
-        import numpy as np
-        from scipy.optimize import linear_sum_assignment
         events = self.profile_deletes
-        w = np.zeros((len(cases), len(events)))
+        w = [[0.0] * len(events) for _ in cases]
         for i, c in enumerate(cases):
             lo = ts(c["requested_at"]) - timedelta(hours=1)
             hi = ts(c["reported_at"]) + timedelta(minutes=20)
@@ -73,14 +87,13 @@ class Activity:
                 owners = owner_of_resource(e["resource_id"])
                 if owners and c["user_id"] not in owners:
                     continue
-                w[i, j] = self.anchor_score(c, e, linked[c["case_id"]], owners, free_policy)
-        rows, cols = linear_sum_assignment(-w)
-        chosen = [(i, j) for i, j in zip(rows, cols) if w[i, j] >= 1]
+                w[i][j] = self.anchor_score(c, e, linked[c["case_id"]], owners, free_policy)
+        chosen = [(i, j) for i, j in match(w) if w[i][j] >= 1]
         # a tie: swapping two cases' anchors scores exactly the same, so the data cannot decide
         self.ties = {}
         for a, (i, j) in enumerate(chosen):
             for k, l in chosen[a + 1:]:
-                if w[i, l] > 0 and w[k, j] > 0 and w[i, l] + w[k, j] == w[i, j] + w[k, l]:
+                if w[i][l] > 0 and w[k][j] > 0 and w[i][l] + w[k][j] == w[i][j] + w[k][l]:
                     self.ties.setdefault(cases[i]["case_id"], []).append(cases[k]["case_id"])
                     self.ties.setdefault(cases[k]["case_id"], []).append(cases[i]["case_id"])
         return {cases[i]["case_id"]: events[j] for i, j in chosen}

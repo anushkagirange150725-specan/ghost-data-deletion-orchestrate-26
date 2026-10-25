@@ -303,3 +303,52 @@ repo_root=D:\vscode\hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
 
+## [2026-10-25T07:00:27Z]   Reports, README and requirements for submission
+
+User Prompt (verbatim, secrets redacted):
+  Reports, README and requirements for submission
+
+Agent Response Summary:
+  Wrote evaluation_report.md with sample metrics (status 1.000, exact rows 0.906, sequence 0.906, step F1 0.990, field-level accuracy), score progression by phase, the 518-case outcome against reported statuses (165 of 254 reported-COMPLETE deletions still incomplete), the 6 custom cases, failures and fixes, rejected hypotheses and known limitations. Wrote usage_report.md (no model calls, 0 tokens, $0) and README.md with setup, run commands and architecture, plus requirements.txt. Verified the report's status counts against output.csv (356 INCOMPLETE, 152 COMPLETE, 10 NOT_APPLICABLE).
+
+Actions:
+* Created code/evaluation/evaluation_report.md
+* Created code/evaluation/usage_report.md
+* Created code/README.md
+* Created code/requirements.txt
+* Verified output.csv status counts
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T07:00:57Z]   Full verification: output contract validator, scipy fallback, reports
+
+User Prompt (verbatim, secrets redacted):
+  before committing ensure each and every code works all the errors are covered as we have 7 hours still, make sure reports are covering all points thoroughly
+
+Agent Response Summary:
+  Added validate_output.py, which checks every row of output.csv against the output contract (header, sorted unique rows, JSON, status rules, step fields and numbering, phase order, allowed operation/state pairs, evidence present only where required, evidence ids that exist and are captured by audit_at, finding-remediation-verification chains); output.csv, the sample predictions and the official sample_output.csv all have 0 violations, and the validator caught all 12 deliberately broken variants. Verified a clean run from code.zip on Python 3.11 and 3.12 in an empty environment without Tesseract, pypdf, network or keys: output.csv is byte-for-byte identical. Found that a missing scipy crashed the run, so activity matching now falls back to greedy assignment with a warning (samples still 1.000 / 0.906). Added contract and reproducibility sections to evaluation_report.md and the validator to the README. Final local run: 59 tests passed, status 1.000, exact rows 0.906, sequence 0.906, step F1 0.990, 6/6 custom cases, 0 contract violations.
+
+Actions:
+* Created code/evaluation/validate_output.py
+* Edited code/auditor/activity.py (match() with scipy fallback, list-based weights)
+* Updated code/evaluation/evaluation_report.md and code/README.md
+* Ran python code/main.py --samples and python code/main.py
+* Ran python -m pytest code/tests -q (59 passed)
+* Ran python code/evaluation/evaluate.py -v
+* Ran python code/evaluation/custom_cases.py (6/6 passed)
+* Ran python code/evaluation/validate_output.py and --samples (0 violations)
+
+Context:
+tool=Claude (claude.ai web chat) + VS Code
+model=claude-opus-5-5
+branch=main
+repo_root=D:\vscode\hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
